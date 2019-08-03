@@ -17,7 +17,7 @@ kinetic: $(KINETIC)/$(DOCKERFILE)
 		--build-arg GIT_REVISION=$(REVISION) \
 		--build-arg GIT_ORIGIN=$(REVISION) \
 		--tag $(USERNAME)/$(PROJECT):$(KINETIC) \
-	. && \
+	. >> /dev/null && \
 	echo "build finished $(USERNAME)/$(PROJECT):$(KINETIC) <<< $<"
 
 melodic: $(MELODIC)/$(DOCKERFILE)
@@ -27,7 +27,7 @@ melodic: $(MELODIC)/$(DOCKERFILE)
 		--build-arg GIT_REVISION=$(REVISION) \
 		--build-arg GIT_ORIGIN=$(REVISION) \
 		--tag $(USERNAME)/$(PROJECT):$(MELODIC) \
-	. && \
+	. >> /dev/null && \
 	echo "build finished $(USERNAME)/$(PROJECT):$(MELODIC) <<< $<"
 
 .PHONY: clean
