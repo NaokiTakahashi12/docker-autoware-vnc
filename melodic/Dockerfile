@@ -15,15 +15,6 @@ RUN apt update && \
 	pip3 install -U \
 		setuptools \
 	&& \
-	wget http://bitbucket.org/eigen/eigen/get/3.3.7.tar.gz && \
-	mkdir eigen && \
-	tar --strip-components=1 -xzvf 3.3.7.tar.gz -C eigen && \
-	mkdir eigen/build && \
-	cd eigen/build && \
-	cmake .. && \
-	make install && \
-	cd ../../ && \
-	rm -rf 3.3.7.tar.gz eigen && \
 	mkdir -p /autoware.ai/src && \
 	cd /autoware.ai && \
 	wget -O autoware.ai.repos "https://gitlab.com/autowarefoundation/autoware.ai/autoware/raw/1.12.0/autoware.ai.repos?inline=false" && \
@@ -33,8 +24,12 @@ RUN apt update && \
         rosdep init; \
         rosdep update; \
         rosdep install --from-paths src --ignore-src --rosdistro=melodic -y; \
-		colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release; \
-    ' && \ 
+	' && \
 	apt autoremove -y && \
 	apt clean && \
 	rm -rf /var/lib/apt/lists/*
+RUN cd /autoware.ai/ && \
+	bash -c ' \
+        . /opt/ros/melodic/setup.bash; \
+		colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release; \
+    '
